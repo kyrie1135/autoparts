@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.portal.admin.right.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.portal.admin.right.model.Role">
+    <id column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="ROLE_NAME" jdbcType="CHAR" property="roleName" />
+    <result column="ROLE_CODE" jdbcType="CHAR" property="roleCode" />
+    <result column="ROLE_DESC" jdbcType="CHAR" property="roleDesc" />
+    <result column="ORDER_INDEX" jdbcType="INTEGER" property="orderIndex" />
+    <result column="CURRENT_STATUS" jdbcType="CHAR" property="currentStatus" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="CREATED_USER_LOGIN" jdbcType="VARCHAR" property="createdUserLogin" />
+    <result column="LAST_UPDATED_TIME" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+    <result column="LAST_UPDATED_USER_LOGIN" jdbcType="VARCHAR" property="lastUpdatedUserLogin" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ROLE_ID, ROLE_NAME, ROLE_CODE, ROLE_DESC, ORDER_INDEX, CURRENT_STATUS, CREATED_TIME, 
+    CREATED_USER_LOGIN, LAST_UPDATED_TIME, LAST_UPDATED_USER_LOGIN
+  </sql>
+  <select id="selectByExample" parameterType="com.mixone.portal.admin.right.model.RoleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from MO_ROLE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MO_ROLE
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MO_ROLE
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.portal.admin.right.model.RoleExample">
+    delete from MO_ROLE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.portal.admin.right.model.Role">
+    insert into MO_ROLE (ROLE_ID, ROLE_NAME, ROLE_CODE, 
+      ROLE_DESC, ORDER_INDEX, CURRENT_STATUS, 
+      CREATED_TIME, CREATED_USER_LOGIN, LAST_UPDATED_TIME, 
+      LAST_UPDATED_USER_LOGIN)
+    values (#{roleId,jdbcType=VARCHAR}, #{roleName,jdbcType=CHAR}, #{roleCode,jdbcType=CHAR}, 
+      #{roleDesc,jdbcType=CHAR}, #{orderIndex,jdbcType=INTEGER}, #{currentStatus,jdbcType=CHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{createdUserLogin,jdbcType=VARCHAR}, #{lastUpdatedTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdatedUserLogin,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.portal.admin.right.model.Role">
+    insert into MO_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME,
+      </if>
+      <if test="roleCode != null">
+        ROLE_CODE,
+      </if>
+      <if test="roleDesc != null">
+        ROLE_DESC,
+      </if>
+      <if test="orderIndex != null">
+        ORDER_INDEX,
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS,
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME,
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN,
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME,
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=CHAR},
+      </if>
+      <if test="roleCode != null">
+        #{roleCode,jdbcType=CHAR},
+      </if>
+      <if test="roleDesc != null">
+        #{roleDesc,jdbcType=CHAR},
+      </if>
+      <if test="orderIndex != null">
+        #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="currentStatus != null">
+        #{currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.portal.admin.right.model.RoleExample" resultType="java.lang.Long">
+    select count(*) from MO_ROLE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update MO_ROLE
+    <set>
+      <if test="record.roleId != null">
+        ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleName != null">
+        ROLE_NAME = #{record.roleName,jdbcType=CHAR},
+      </if>
+      <if test="record.roleCode != null">
+        ROLE_CODE = #{record.roleCode,jdbcType=CHAR},
+      </if>
+      <if test="record.roleDesc != null">
+        ROLE_DESC = #{record.roleDesc,jdbcType=CHAR},
+      </if>
+      <if test="record.orderIndex != null">
+        ORDER_INDEX = #{record.orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentStatus != null">
+        CURRENT_STATUS = #{record.currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.createdTime != null">
+        CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserLogin != null">
+        CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update MO_ROLE
+    set ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+      ROLE_NAME = #{record.roleName,jdbcType=CHAR},
+      ROLE_CODE = #{record.roleCode,jdbcType=CHAR},
+      ROLE_DESC = #{record.roleDesc,jdbcType=CHAR},
+      ORDER_INDEX = #{record.orderIndex,jdbcType=INTEGER},
+      CURRENT_STATUS = #{record.currentStatus,jdbcType=CHAR},
+      CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.portal.admin.right.model.Role">
+    update MO_ROLE
+    <set>
+      <if test="roleName != null">
+        ROLE_NAME = #{roleName,jdbcType=CHAR},
+      </if>
+      <if test="roleCode != null">
+        ROLE_CODE = #{roleCode,jdbcType=CHAR},
+      </if>
+      <if test="roleDesc != null">
+        ROLE_DESC = #{roleDesc,jdbcType=CHAR},
+      </if>
+      <if test="orderIndex != null">
+        ORDER_INDEX = #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS = #{currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.portal.admin.right.model.Role">
+    update MO_ROLE
+    set ROLE_NAME = #{roleName,jdbcType=CHAR},
+      ROLE_CODE = #{roleCode,jdbcType=CHAR},
+      ROLE_DESC = #{roleDesc,jdbcType=CHAR},
+      ORDER_INDEX = #{orderIndex,jdbcType=INTEGER},
+      CURRENT_STATUS = #{currentStatus,jdbcType=CHAR},
+      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

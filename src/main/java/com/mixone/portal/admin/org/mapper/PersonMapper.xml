@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.portal.admin.org.mapper.PersonMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.portal.admin.org.model.Person">
+    <id column="PERSON_ID" jdbcType="VARCHAR" property="personId" />
+    <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
+    <result column="FULL_NAME" jdbcType="VARCHAR" property="fullName" />
+    <result column="SALUTATION" jdbcType="VARCHAR" property="salutation" />
+    <result column="LAST_NAME" jdbcType="VARCHAR" property="lastName" />
+    <result column="FIRST_NAME" jdbcType="VARCHAR" property="firstName" />
+    <result column="MID_NAME" jdbcType="VARCHAR" property="midName" />
+    <result column="NICKNAME" jdbcType="VARCHAR" property="nickname" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="PERSONAL_TITLE" jdbcType="VARCHAR" property="personalTitle" />
+    <result column="BIRTH_DATE" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="HEIGHT" jdbcType="DECIMAL" property="height" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="MARITAL_STATUS" jdbcType="VARCHAR" property="maritalStatus" />
+    <result column="OCCUPATION" jdbcType="VARCHAR" property="occupation" />
+    <result column="COMMENTS" jdbcType="VARCHAR" property="comments" />
+    <result column="CARD_TYPE" jdbcType="VARCHAR" property="cardType" />
+    <result column="CARD_ID" jdbcType="VARCHAR" property="cardId" />
+    <result column="CURRENT_STATUS" jdbcType="VARCHAR" property="currentStatus" />
+    <result column="ORDER_INDEX" jdbcType="INTEGER" property="orderIndex" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="CREATED_USER_LOGIN" jdbcType="VARCHAR" property="createdUserLogin" />
+    <result column="LAST_UPDATED_TIME" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+    <result column="LAST_UPDATED_USER_LOGIN" jdbcType="VARCHAR" property="lastUpdatedUserLogin" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    PERSON_ID, PARTY_ID, FULL_NAME, SALUTATION, LAST_NAME, FIRST_NAME, MID_NAME, NICKNAME, 
+    GENDER, PERSONAL_TITLE, BIRTH_DATE, HEIGHT, WEIGHT, MARITAL_STATUS, OCCUPATION, COMMENTS, 
+    CARD_TYPE, CARD_ID, CURRENT_STATUS, ORDER_INDEX, CREATED_TIME, CREATED_USER_LOGIN, 
+    LAST_UPDATED_TIME, LAST_UPDATED_USER_LOGIN
+  </sql>
+  <select id="selectByExample" parameterType="com.mixone.portal.admin.org.model.PersonExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from MO_PERSON
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MO_PERSON
+    where PERSON_ID = #{personId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MO_PERSON
+    where PERSON_ID = #{personId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.portal.admin.org.model.PersonExample">
+    delete from MO_PERSON
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.portal.admin.org.model.Person">
+    insert into MO_PERSON (PERSON_ID, PARTY_ID, FULL_NAME, 
+      SALUTATION, LAST_NAME, FIRST_NAME, 
+      MID_NAME, NICKNAME, GENDER, 
+      PERSONAL_TITLE, BIRTH_DATE, HEIGHT, 
+      WEIGHT, MARITAL_STATUS, OCCUPATION, 
+      COMMENTS, CARD_TYPE, CARD_ID, 
+      CURRENT_STATUS, ORDER_INDEX, CREATED_TIME, 
+      CREATED_USER_LOGIN, LAST_UPDATED_TIME, LAST_UPDATED_USER_LOGIN
+      )
+    values (#{personId,jdbcType=VARCHAR}, #{partyId,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, 
+      #{salutation,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, 
+      #{midName,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{personalTitle,jdbcType=VARCHAR}, #{birthDate,jdbcType=TIMESTAMP}, #{height,jdbcType=DECIMAL}, 
+      #{weight,jdbcType=DECIMAL}, #{maritalStatus,jdbcType=VARCHAR}, #{occupation,jdbcType=VARCHAR}, 
+      #{comments,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, 
+      #{currentStatus,jdbcType=VARCHAR}, #{orderIndex,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdUserLogin,jdbcType=VARCHAR}, #{lastUpdatedTime,jdbcType=TIMESTAMP}, #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.portal.admin.org.model.Person">
+    insert into MO_PERSON
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        PERSON_ID,
+      </if>
+      <if test="partyId != null">
+        PARTY_ID,
+      </if>
+      <if test="fullName != null">
+        FULL_NAME,
+      </if>
+      <if test="salutation != null">
+        SALUTATION,
+      </if>
+      <if test="lastName != null">
+        LAST_NAME,
+      </if>
+      <if test="firstName != null">
+        FIRST_NAME,
+      </if>
+      <if test="midName != null">
+        MID_NAME,
+      </if>
+      <if test="nickname != null">
+        NICKNAME,
+      </if>
+      <if test="gender != null">
+        GENDER,
+      </if>
+      <if test="personalTitle != null">
+        PERSONAL_TITLE,
+      </if>
+      <if test="birthDate != null">
+        BIRTH_DATE,
+      </if>
+      <if test="height != null">
+        HEIGHT,
+      </if>
+      <if test="weight != null">
+        WEIGHT,
+      </if>
+      <if test="maritalStatus != null">
+        MARITAL_STATUS,
+      </if>
+      <if test="occupation != null">
+        OCCUPATION,
+      </if>
+      <if test="comments != null">
+        COMMENTS,
+      </if>
+      <if test="cardType != null">
+        CARD_TYPE,
+      </if>
+      <if test="cardId != null">
+        CARD_ID,
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS,
+      </if>
+      <if test="orderIndex != null">
+        ORDER_INDEX,
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME,
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN,
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME,
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null">
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="salutation != null">
+        #{salutation,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstName != null">
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="midName != null">
+        #{midName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="personalTitle != null">
+        #{personalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="maritalStatus != null">
+        #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="occupation != null">
+        #{occupation,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null">
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStatus != null">
+        #{currentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderIndex != null">
+        #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.portal.admin.org.model.PersonExample" resultType="java.lang.Long">
+    select count(*) from MO_PERSON
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update MO_PERSON
+    <set>
+      <if test="record.personId != null">
+        PERSON_ID = #{record.personId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyId != null">
+        PARTY_ID = #{record.partyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullName != null">
+        FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salutation != null">
+        SALUTATION = #{record.salutation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastName != null">
+        LAST_NAME = #{record.lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstName != null">
+        FIRST_NAME = #{record.firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.midName != null">
+        MID_NAME = #{record.midName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null">
+        NICKNAME = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        GENDER = #{record.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personalTitle != null">
+        PERSONAL_TITLE = #{record.personalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthDate != null">
+        BIRTH_DATE = #{record.birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.height != null">
+        HEIGHT = #{record.height,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weight != null">
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maritalStatus != null">
+        MARITAL_STATUS = #{record.maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.occupation != null">
+        OCCUPATION = #{record.occupation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comments != null">
+        COMMENTS = #{record.comments,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardType != null">
+        CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardId != null">
+        CARD_ID = #{record.cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentStatus != null">
+        CURRENT_STATUS = #{record.currentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderIndex != null">
+        ORDER_INDEX = #{record.orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null">
+        CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserLogin != null">
+        CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update MO_PERSON
+    set PERSON_ID = #{record.personId,jdbcType=VARCHAR},
+      PARTY_ID = #{record.partyId,jdbcType=VARCHAR},
+      FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      SALUTATION = #{record.salutation,jdbcType=VARCHAR},
+      LAST_NAME = #{record.lastName,jdbcType=VARCHAR},
+      FIRST_NAME = #{record.firstName,jdbcType=VARCHAR},
+      MID_NAME = #{record.midName,jdbcType=VARCHAR},
+      NICKNAME = #{record.nickname,jdbcType=VARCHAR},
+      GENDER = #{record.gender,jdbcType=VARCHAR},
+      PERSONAL_TITLE = #{record.personalTitle,jdbcType=VARCHAR},
+      BIRTH_DATE = #{record.birthDate,jdbcType=TIMESTAMP},
+      HEIGHT = #{record.height,jdbcType=DECIMAL},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      MARITAL_STATUS = #{record.maritalStatus,jdbcType=VARCHAR},
+      OCCUPATION = #{record.occupation,jdbcType=VARCHAR},
+      COMMENTS = #{record.comments,jdbcType=VARCHAR},
+      CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+      CARD_ID = #{record.cardId,jdbcType=VARCHAR},
+      CURRENT_STATUS = #{record.currentStatus,jdbcType=VARCHAR},
+      ORDER_INDEX = #{record.orderIndex,jdbcType=INTEGER},
+      CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.portal.admin.org.model.Person">
+    update MO_PERSON
+    <set>
+      <if test="partyId != null">
+        PARTY_ID = #{partyId,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null">
+        FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="salutation != null">
+        SALUTATION = #{salutation,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        LAST_NAME = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstName != null">
+        FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="midName != null">
+        MID_NAME = #{midName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        NICKNAME = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="personalTitle != null">
+        PERSONAL_TITLE = #{personalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        BIRTH_DATE = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        HEIGHT = #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="maritalStatus != null">
+        MARITAL_STATUS = #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="occupation != null">
+        OCCUPATION = #{occupation,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null">
+        COMMENTS = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        CARD_ID = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS = #{currentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderIndex != null">
+        ORDER_INDEX = #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PERSON_ID = #{personId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.portal.admin.org.model.Person">
+    update MO_PERSON
+    set PARTY_ID = #{partyId,jdbcType=VARCHAR},
+      FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      SALUTATION = #{salutation,jdbcType=VARCHAR},
+      LAST_NAME = #{lastName,jdbcType=VARCHAR},
+      FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+      MID_NAME = #{midName,jdbcType=VARCHAR},
+      NICKNAME = #{nickname,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      PERSONAL_TITLE = #{personalTitle,jdbcType=VARCHAR},
+      BIRTH_DATE = #{birthDate,jdbcType=TIMESTAMP},
+      HEIGHT = #{height,jdbcType=DECIMAL},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      MARITAL_STATUS = #{maritalStatus,jdbcType=VARCHAR},
+      OCCUPATION = #{occupation,jdbcType=VARCHAR},
+      COMMENTS = #{comments,jdbcType=VARCHAR},
+      CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+      CARD_ID = #{cardId,jdbcType=VARCHAR},
+      CURRENT_STATUS = #{currentStatus,jdbcType=VARCHAR},
+      ORDER_INDEX = #{orderIndex,jdbcType=INTEGER},
+      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+    where PERSON_ID = #{personId,jdbcType=VARCHAR}
+  </update>
+</mapper>

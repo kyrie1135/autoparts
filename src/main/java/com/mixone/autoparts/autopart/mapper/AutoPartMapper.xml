@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.autoparts.autopart.mapper.AutoPartMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.autoparts.autopart.model.AutoPart">
+    <id column="autopart_id" jdbcType="VARCHAR" property="autopartId" />
+    <result column="autocar_no" jdbcType="VARCHAR" property="autocarNo" />
+    <result column="autopart_name" jdbcType="VARCHAR" property="autopartName" />
+    <result column="autopart_price" jdbcType="DOUBLE" property="autopartPrice" />
+    <result column="autopart_quantity" jdbcType="INTEGER" property="autopartQuantity" />
+    <result column="autopart_total" jdbcType="DOUBLE" property="autopartTotal" />
+    <result column="purchaser" jdbcType="VARCHAR" property="purchaser" />
+    <result column="purchase_time" jdbcType="TIMESTAMP" property="purchaseTime" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="created_user_login" jdbcType="VARCHAR" property="createdUserLogin" />
+    <result column="last_updated_time" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+    <result column="last_updated_user_login" jdbcType="VARCHAR" property="lastUpdatedUserLogin" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    autopart_id, autocar_no, autopart_name, autopart_price, autopart_quantity, autopart_total, 
+    purchaser, purchase_time, is_del, created_time, created_user_login, last_updated_time, 
+    last_updated_user_login
+  </sql>
+  <select id="selectByExample" parameterType="com.mixone.autoparts.autopart.model.AutoPartExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from auto_part
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auto_part
+    where autopart_id = #{autopartId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from auto_part
+    where autopart_id = #{autopartId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.autoparts.autopart.model.AutoPartExample">
+    delete from auto_part
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.autoparts.autopart.model.AutoPart">
+    insert into auto_part (autopart_id, autocar_no, autopart_name, 
+      autopart_price, autopart_quantity, autopart_total, 
+      purchaser, purchase_time, is_del, 
+      created_time, created_user_login, last_updated_time, 
+      last_updated_user_login)
+    values (#{autopartId,jdbcType=VARCHAR}, #{autocarNo,jdbcType=VARCHAR}, #{autopartName,jdbcType=VARCHAR}, 
+      #{autopartPrice,jdbcType=DOUBLE}, #{autopartQuantity,jdbcType=INTEGER}, #{autopartTotal,jdbcType=DOUBLE}, 
+      #{purchaser,jdbcType=VARCHAR}, #{purchaseTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{createdUserLogin,jdbcType=VARCHAR}, #{lastUpdatedTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdatedUserLogin,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.autoparts.autopart.model.AutoPart">
+    insert into auto_part
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autopartId != null">
+        autopart_id,
+      </if>
+      <if test="autocarNo != null">
+        autocar_no,
+      </if>
+      <if test="autopartName != null">
+        autopart_name,
+      </if>
+      <if test="autopartPrice != null">
+        autopart_price,
+      </if>
+      <if test="autopartQuantity != null">
+        autopart_quantity,
+      </if>
+      <if test="autopartTotal != null">
+        autopart_total,
+      </if>
+      <if test="purchaser != null">
+        purchaser,
+      </if>
+      <if test="purchaseTime != null">
+        purchase_time,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="createdUserLogin != null">
+        created_user_login,
+      </if>
+      <if test="lastUpdatedTime != null">
+        last_updated_time,
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        last_updated_user_login,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autopartId != null">
+        #{autopartId,jdbcType=VARCHAR},
+      </if>
+      <if test="autocarNo != null">
+        #{autocarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="autopartName != null">
+        #{autopartName,jdbcType=VARCHAR},
+      </if>
+      <if test="autopartPrice != null">
+        #{autopartPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="autopartQuantity != null">
+        #{autopartQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="autopartTotal != null">
+        #{autopartTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="purchaser != null">
+        #{purchaser,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseTime != null">
+        #{purchaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.autoparts.autopart.model.AutoPartExample" resultType="java.lang.Long">
+    select count(*) from auto_part
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update auto_part
+    <set>
+      <if test="record.autopartId != null">
+        autopart_id = #{record.autopartId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autocarNo != null">
+        autocar_no = #{record.autocarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autopartName != null">
+        autopart_name = #{record.autopartName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autopartPrice != null">
+        autopart_price = #{record.autopartPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.autopartQuantity != null">
+        autopart_quantity = #{record.autopartQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.autopartTotal != null">
+        autopart_total = #{record.autopartTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.purchaser != null">
+        purchaser = #{record.purchaser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaseTime != null">
+        purchase_time = #{record.purchaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserLogin != null">
+        created_user_login = #{record.createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdatedTime != null">
+        last_updated_time = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdatedUserLogin != null">
+        last_updated_user_login = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update auto_part
+    set autopart_id = #{record.autopartId,jdbcType=VARCHAR},
+      autocar_no = #{record.autocarNo,jdbcType=VARCHAR},
+      autopart_name = #{record.autopartName,jdbcType=VARCHAR},
+      autopart_price = #{record.autopartPrice,jdbcType=DOUBLE},
+      autopart_quantity = #{record.autopartQuantity,jdbcType=INTEGER},
+      autopart_total = #{record.autopartTotal,jdbcType=DOUBLE},
+      purchaser = #{record.purchaser,jdbcType=VARCHAR},
+      purchase_time = #{record.purchaseTime,jdbcType=TIMESTAMP},
+      is_del = #{record.isDel,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_user_login = #{record.createdUserLogin,jdbcType=VARCHAR},
+      last_updated_time = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      last_updated_user_login = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.autoparts.autopart.model.AutoPart">
+    update auto_part
+    <set>
+      <if test="autocarNo != null">
+        autocar_no = #{autocarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="autopartName != null">
+        autopart_name = #{autopartName,jdbcType=VARCHAR},
+      </if>
+      <if test="autopartPrice != null">
+        autopart_price = #{autopartPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="autopartQuantity != null">
+        autopart_quantity = #{autopartQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="autopartTotal != null">
+        autopart_total = #{autopartTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="purchaser != null">
+        purchaser = #{purchaser,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseTime != null">
+        purchase_time = #{purchaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        created_user_login = #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        last_updated_user_login = #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where autopart_id = #{autopartId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.autoparts.autopart.model.AutoPart">
+    update auto_part
+    set autocar_no = #{autocarNo,jdbcType=VARCHAR},
+      autopart_name = #{autopartName,jdbcType=VARCHAR},
+      autopart_price = #{autopartPrice,jdbcType=DOUBLE},
+      autopart_quantity = #{autopartQuantity,jdbcType=INTEGER},
+      autopart_total = #{autopartTotal,jdbcType=DOUBLE},
+      purchaser = #{purchaser,jdbcType=VARCHAR},
+      purchase_time = #{purchaseTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user_login = #{createdUserLogin,jdbcType=VARCHAR},
+      last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      last_updated_user_login = #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+    where autopart_id = #{autopartId,jdbcType=VARCHAR}
+  </update>
+</mapper>

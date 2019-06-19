@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.portal.admin.org.mapper.OrgNodeMapper">
+    <resultMap id="OrgNodeResultMap" type="com.mixone.portal.admin.org.model.OrgNode">
+        <id column="PARTY_ID" jdbcType="VARCHAR" property="id" />
+        <result column="ORG_NAME" jdbcType="VARCHAR" property="text" />
+        <result column="PARENT_ORG_ID" jdbcType="VARCHAR" property="parentId" />
+        <result column="ORDER_INDEX" jdbcType="VARCHAR" property="orderIndex" />
+    </resultMap>
+
+    <select id="findOrgNode" parameterType="java.lang.String" resultMap="OrgNodeResultMap">
+        select * from MO_ORG where CURRENT_STATUS='0' and parent_org_id = #{parentOrgId} order by ORDER_INDEX,ORG_NAME
+    </select>
+</mapper>

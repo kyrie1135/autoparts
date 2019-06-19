@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.portal.admin.org.mapper.PartyMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.portal.admin.org.model.Party">
+    <id column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
+    <result column="PARTY_NAME" jdbcType="VARCHAR" property="partyName" />
+    <result column="IS_INTERNAL" jdbcType="CHAR" property="isInternal" />
+    <result column="CURRENT_STATUS" jdbcType="CHAR" property="currentStatus" />
+    <result column="PARTY_TYPE" jdbcType="CHAR" property="partyType" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="CREATED_USER_LOGIN" jdbcType="VARCHAR" property="createdUserLogin" />
+    <result column="LAST_UPDATED_TIME" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+    <result column="LAST_UPDATED_USER_LOGIN" jdbcType="VARCHAR" property="lastUpdatedUserLogin" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    PARTY_ID, PARTY_NAME, IS_INTERNAL, CURRENT_STATUS, PARTY_TYPE, CREATED_TIME, CREATED_USER_LOGIN, 
+    LAST_UPDATED_TIME, LAST_UPDATED_USER_LOGIN
+  </sql>
+  <select id="selectByExample" parameterType="com.mixone.portal.admin.org.model.PartyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from MO_PARTY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MO_PARTY
+    where PARTY_ID = #{partyId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MO_PARTY
+    where PARTY_ID = #{partyId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.portal.admin.org.model.PartyExample">
+    delete from MO_PARTY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.portal.admin.org.model.Party">
+    insert into MO_PARTY (PARTY_ID, PARTY_NAME, IS_INTERNAL, 
+      CURRENT_STATUS, PARTY_TYPE, CREATED_TIME, 
+      CREATED_USER_LOGIN, LAST_UPDATED_TIME, LAST_UPDATED_USER_LOGIN
+      )
+    values (#{partyId,jdbcType=VARCHAR}, #{partyName,jdbcType=VARCHAR}, #{isInternal,jdbcType=CHAR}, 
+      #{currentStatus,jdbcType=CHAR}, #{partyType,jdbcType=CHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdUserLogin,jdbcType=VARCHAR}, #{lastUpdatedTime,jdbcType=TIMESTAMP}, #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.portal.admin.org.model.Party">
+    insert into MO_PARTY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="partyId != null">
+        PARTY_ID,
+      </if>
+      <if test="partyName != null">
+        PARTY_NAME,
+      </if>
+      <if test="isInternal != null">
+        IS_INTERNAL,
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS,
+      </if>
+      <if test="partyType != null">
+        PARTY_TYPE,
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME,
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN,
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME,
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="partyId != null">
+        #{partyId,jdbcType=VARCHAR},
+      </if>
+      <if test="partyName != null">
+        #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="isInternal != null">
+        #{isInternal,jdbcType=CHAR},
+      </if>
+      <if test="currentStatus != null">
+        #{currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="partyType != null">
+        #{partyType,jdbcType=CHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.portal.admin.org.model.PartyExample" resultType="java.lang.Long">
+    select count(*) from MO_PARTY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update MO_PARTY
+    <set>
+      <if test="record.partyId != null">
+        PARTY_ID = #{record.partyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyName != null">
+        PARTY_NAME = #{record.partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isInternal != null">
+        IS_INTERNAL = #{record.isInternal,jdbcType=CHAR},
+      </if>
+      <if test="record.currentStatus != null">
+        CURRENT_STATUS = #{record.currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.partyType != null">
+        PARTY_TYPE = #{record.partyType,jdbcType=CHAR},
+      </if>
+      <if test="record.createdTime != null">
+        CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserLogin != null">
+        CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update MO_PARTY
+    set PARTY_ID = #{record.partyId,jdbcType=VARCHAR},
+      PARTY_NAME = #{record.partyName,jdbcType=VARCHAR},
+      IS_INTERNAL = #{record.isInternal,jdbcType=CHAR},
+      CURRENT_STATUS = #{record.currentStatus,jdbcType=CHAR},
+      PARTY_TYPE = #{record.partyType,jdbcType=CHAR},
+      CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.portal.admin.org.model.Party">
+    update MO_PARTY
+    <set>
+      <if test="partyName != null">
+        PARTY_NAME = #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="isInternal != null">
+        IS_INTERNAL = #{isInternal,jdbcType=CHAR},
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS = #{currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="partyType != null">
+        PARTY_TYPE = #{partyType,jdbcType=CHAR},
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PARTY_ID = #{partyId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.portal.admin.org.model.Party">
+    update MO_PARTY
+    set PARTY_NAME = #{partyName,jdbcType=VARCHAR},
+      IS_INTERNAL = #{isInternal,jdbcType=CHAR},
+      CURRENT_STATUS = #{currentStatus,jdbcType=CHAR},
+      PARTY_TYPE = #{partyType,jdbcType=CHAR},
+      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+    where PARTY_ID = #{partyId,jdbcType=VARCHAR}
+  </update>
+</mapper>
