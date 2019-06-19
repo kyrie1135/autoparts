@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.autoparts.autocar.mapper.AutoCarMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.autoparts.autocar.model.AutoCar">
+    <id column="autocar_id" jdbcType="VARCHAR" property="autocarId" />
+    <result column="autocar_no" jdbcType="VARCHAR" property="autocarNo" />
+    <result column="autocar_type" jdbcType="CHAR" property="autocarType" />
+    <result column="autocar_owner" jdbcType="VARCHAR" property="autocarOwner" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="created_user_login" jdbcType="VARCHAR" property="createdUserLogin" />
+    <result column="last_updated_time" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+    <result column="last_updated_user_login" jdbcType="VARCHAR" property="lastUpdatedUserLogin" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    autocar_id, autocar_no, autocar_type, autocar_owner, is_del, created_time, created_user_login, 
+    last_updated_time, last_updated_user_login
+  </sql>
+  <select id="selectByExample" parameterType="com.mixone.autoparts.autocar.model.AutoCarExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from auto_car
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auto_car
+    where autocar_id = #{autocarId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from auto_car
+    where autocar_id = #{autocarId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.autoparts.autocar.model.AutoCarExample">
+    delete from auto_car
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.autoparts.autocar.model.AutoCar">
+    insert into auto_car (autocar_id, autocar_no, autocar_type, 
+      autocar_owner, is_del, created_time, 
+      created_user_login, last_updated_time, last_updated_user_login
+      )
+    values (#{autocarId,jdbcType=VARCHAR}, #{autocarNo,jdbcType=VARCHAR}, #{autocarType,jdbcType=CHAR}, 
+      #{autocarOwner,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdUserLogin,jdbcType=VARCHAR}, #{lastUpdatedTime,jdbcType=TIMESTAMP}, #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.autoparts.autocar.model.AutoCar">
+    insert into auto_car
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autocarId != null">
+        autocar_id,
+      </if>
+      <if test="autocarNo != null">
+        autocar_no,
+      </if>
+      <if test="autocarType != null">
+        autocar_type,
+      </if>
+      <if test="autocarOwner != null">
+        autocar_owner,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="createdUserLogin != null">
+        created_user_login,
+      </if>
+      <if test="lastUpdatedTime != null">
+        last_updated_time,
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        last_updated_user_login,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autocarId != null">
+        #{autocarId,jdbcType=VARCHAR},
+      </if>
+      <if test="autocarNo != null">
+        #{autocarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="autocarType != null">
+        #{autocarType,jdbcType=CHAR},
+      </if>
+      <if test="autocarOwner != null">
+        #{autocarOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.autoparts.autocar.model.AutoCarExample" resultType="java.lang.Long">
+    select count(*) from auto_car
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update auto_car
+    <set>
+      <if test="record.autocarId != null">
+        autocar_id = #{record.autocarId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autocarNo != null">
+        autocar_no = #{record.autocarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autocarType != null">
+        autocar_type = #{record.autocarType,jdbcType=CHAR},
+      </if>
+      <if test="record.autocarOwner != null">
+        autocar_owner = #{record.autocarOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserLogin != null">
+        created_user_login = #{record.createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdatedTime != null">
+        last_updated_time = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdatedUserLogin != null">
+        last_updated_user_login = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update auto_car
+    set autocar_id = #{record.autocarId,jdbcType=VARCHAR},
+      autocar_no = #{record.autocarNo,jdbcType=VARCHAR},
+      autocar_type = #{record.autocarType,jdbcType=CHAR},
+      autocar_owner = #{record.autocarOwner,jdbcType=VARCHAR},
+      is_del = #{record.isDel,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_user_login = #{record.createdUserLogin,jdbcType=VARCHAR},
+      last_updated_time = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      last_updated_user_login = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.autoparts.autocar.model.AutoCar">
+    update auto_car
+    <set>
+      <if test="autocarNo != null">
+        autocar_no = #{autocarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="autocarType != null">
+        autocar_type = #{autocarType,jdbcType=CHAR},
+      </if>
+      <if test="autocarOwner != null">
+        autocar_owner = #{autocarOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        created_user_login = #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        last_updated_user_login = #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where autocar_id = #{autocarId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.autoparts.autocar.model.AutoCar">
+    update auto_car
+    set autocar_no = #{autocarNo,jdbcType=VARCHAR},
+      autocar_type = #{autocarType,jdbcType=CHAR},
+      autocar_owner = #{autocarOwner,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user_login = #{createdUserLogin,jdbcType=VARCHAR},
+      last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      last_updated_user_login = #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+    where autocar_id = #{autocarId,jdbcType=VARCHAR}
+  </update>
+</mapper>

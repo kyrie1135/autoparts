@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.portal.admin.app.mapper.ModuleMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.portal.admin.app.model.Module">
+    <id column="MODULE_ID" jdbcType="VARCHAR" property="moduleId" />
+    <result column="APP_ID" jdbcType="VARCHAR" property="appId" />
+    <result column="APP_NAME" jdbcType="VARCHAR" property="appName" />
+    <result column="MODULE_NAME" jdbcType="VARCHAR" property="moduleName" />
+    <result column="MODULE_CODE" jdbcType="VARCHAR" property="moduleCode" />
+    <result column="MODULE_ICON_URL" jdbcType="VARCHAR" property="moduleIconUrl" />
+    <result column="MODULE_URL" jdbcType="VARCHAR" property="moduleUrl" />
+    <result column="IS_ADMIN" jdbcType="VARCHAR" property="isAdmin" />
+    <result column="NEED_RIGHT" jdbcType="VARCHAR" property="needRight" />
+    <result column="ORDER_INDEX" jdbcType="INTEGER" property="orderIndex" />
+    <result column="CURRENT_STATUS" jdbcType="CHAR" property="currentStatus" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="CREATED_USER_LOGIN" jdbcType="VARCHAR" property="createdUserLogin" />
+    <result column="LAST_UPDATED_TIME" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+    <result column="LAST_UPDATED_USER_LOGIN" jdbcType="VARCHAR" property="lastUpdatedUserLogin" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    MODULE_ID, APP_ID, APP_NAME, MODULE_NAME, MODULE_CODE, MODULE_ICON_URL, MODULE_URL, 
+    IS_ADMIN, NEED_RIGHT, ORDER_INDEX, CURRENT_STATUS, CREATED_TIME, CREATED_USER_LOGIN, 
+    LAST_UPDATED_TIME, LAST_UPDATED_USER_LOGIN
+  </sql>
+  <select id="selectByExample" parameterType="com.mixone.portal.admin.app.model.ModuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from MO_MODULE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MO_MODULE
+    where MODULE_ID = #{moduleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from MO_MODULE
+    where MODULE_ID = #{moduleId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.portal.admin.app.model.ModuleExample">
+    delete from MO_MODULE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.portal.admin.app.model.Module">
+    insert into MO_MODULE (MODULE_ID, APP_ID, APP_NAME, 
+      MODULE_NAME, MODULE_CODE, MODULE_ICON_URL, 
+      MODULE_URL, IS_ADMIN, NEED_RIGHT, 
+      ORDER_INDEX, CURRENT_STATUS, CREATED_TIME, 
+      CREATED_USER_LOGIN, LAST_UPDATED_TIME, LAST_UPDATED_USER_LOGIN
+      )
+    values (#{moduleId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, 
+      #{moduleName,jdbcType=VARCHAR}, #{moduleCode,jdbcType=VARCHAR}, #{moduleIconUrl,jdbcType=VARCHAR}, 
+      #{moduleUrl,jdbcType=VARCHAR}, #{isAdmin,jdbcType=VARCHAR}, #{needRight,jdbcType=VARCHAR}, 
+      #{orderIndex,jdbcType=INTEGER}, #{currentStatus,jdbcType=CHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdUserLogin,jdbcType=VARCHAR}, #{lastUpdatedTime,jdbcType=TIMESTAMP}, #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.portal.admin.app.model.Module">
+    insert into MO_MODULE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="moduleId != null">
+        MODULE_ID,
+      </if>
+      <if test="appId != null">
+        APP_ID,
+      </if>
+      <if test="appName != null">
+        APP_NAME,
+      </if>
+      <if test="moduleName != null">
+        MODULE_NAME,
+      </if>
+      <if test="moduleCode != null">
+        MODULE_CODE,
+      </if>
+      <if test="moduleIconUrl != null">
+        MODULE_ICON_URL,
+      </if>
+      <if test="moduleUrl != null">
+        MODULE_URL,
+      </if>
+      <if test="isAdmin != null">
+        IS_ADMIN,
+      </if>
+      <if test="needRight != null">
+        NEED_RIGHT,
+      </if>
+      <if test="orderIndex != null">
+        ORDER_INDEX,
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS,
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME,
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN,
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME,
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null">
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null">
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null">
+        #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleIconUrl != null">
+        #{moduleIconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleUrl != null">
+        #{moduleUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isAdmin != null">
+        #{isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="needRight != null">
+        #{needRight,jdbcType=VARCHAR},
+      </if>
+      <if test="orderIndex != null">
+        #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="currentStatus != null">
+        #{currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.portal.admin.app.model.ModuleExample" resultType="java.lang.Long">
+    select count(*) from MO_MODULE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update MO_MODULE
+    <set>
+      <if test="record.moduleId != null">
+        MODULE_ID = #{record.moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null">
+        APP_ID = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appName != null">
+        APP_NAME = #{record.appName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleName != null">
+        MODULE_NAME = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleCode != null">
+        MODULE_CODE = #{record.moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleIconUrl != null">
+        MODULE_ICON_URL = #{record.moduleIconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleUrl != null">
+        MODULE_URL = #{record.moduleUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAdmin != null">
+        IS_ADMIN = #{record.isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.needRight != null">
+        NEED_RIGHT = #{record.needRight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderIndex != null">
+        ORDER_INDEX = #{record.orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentStatus != null">
+        CURRENT_STATUS = #{record.currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.createdTime != null">
+        CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserLogin != null">
+        CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update MO_MODULE
+    set MODULE_ID = #{record.moduleId,jdbcType=VARCHAR},
+      APP_ID = #{record.appId,jdbcType=VARCHAR},
+      APP_NAME = #{record.appName,jdbcType=VARCHAR},
+      MODULE_NAME = #{record.moduleName,jdbcType=VARCHAR},
+      MODULE_CODE = #{record.moduleCode,jdbcType=VARCHAR},
+      MODULE_ICON_URL = #{record.moduleIconUrl,jdbcType=VARCHAR},
+      MODULE_URL = #{record.moduleUrl,jdbcType=VARCHAR},
+      IS_ADMIN = #{record.isAdmin,jdbcType=VARCHAR},
+      NEED_RIGHT = #{record.needRight,jdbcType=VARCHAR},
+      ORDER_INDEX = #{record.orderIndex,jdbcType=INTEGER},
+      CURRENT_STATUS = #{record.currentStatus,jdbcType=CHAR},
+      CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{record.createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.portal.admin.app.model.Module">
+    update MO_MODULE
+    <set>
+      <if test="appId != null">
+        APP_ID = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null">
+        APP_NAME = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null">
+        MODULE_NAME = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null">
+        MODULE_CODE = #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleIconUrl != null">
+        MODULE_ICON_URL = #{moduleIconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleUrl != null">
+        MODULE_URL = #{moduleUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isAdmin != null">
+        IS_ADMIN = #{isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="needRight != null">
+        NEED_RIGHT = #{needRight,jdbcType=VARCHAR},
+      </if>
+      <if test="orderIndex != null">
+        ORDER_INDEX = #{orderIndex,jdbcType=INTEGER},
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS = #{currentStatus,jdbcType=CHAR},
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MODULE_ID = #{moduleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.portal.admin.app.model.Module">
+    update MO_MODULE
+    set APP_ID = #{appId,jdbcType=VARCHAR},
+      APP_NAME = #{appName,jdbcType=VARCHAR},
+      MODULE_NAME = #{moduleName,jdbcType=VARCHAR},
+      MODULE_CODE = #{moduleCode,jdbcType=VARCHAR},
+      MODULE_ICON_URL = #{moduleIconUrl,jdbcType=VARCHAR},
+      MODULE_URL = #{moduleUrl,jdbcType=VARCHAR},
+      IS_ADMIN = #{isAdmin,jdbcType=VARCHAR},
+      NEED_RIGHT = #{needRight,jdbcType=VARCHAR},
+      ORDER_INDEX = #{orderIndex,jdbcType=INTEGER},
+      CURRENT_STATUS = #{currentStatus,jdbcType=CHAR},
+      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      CREATED_USER_LOGIN = #{createdUserLogin,jdbcType=VARCHAR},
+      LAST_UPDATED_TIME = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      LAST_UPDATED_USER_LOGIN = #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+    where MODULE_ID = #{moduleId,jdbcType=VARCHAR}
+  </update>
+</mapper>
