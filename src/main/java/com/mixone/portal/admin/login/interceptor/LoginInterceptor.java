@@ -1,7 +1,5 @@
 package com.mixone.portal.admin.login.interceptor;
 
-import com.mixone.portal.admin.app.model.ModuleRes;
-import com.mixone.portal.admin.app.model.ModuleResExample;
 import com.mixone.portal.admin.app.service.ModuleResService;
 import com.mixone.portal.admin.org.model.UserLogin;
 import com.mixone.portal.admin.util.RightManager;
@@ -11,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
 
 public class LoginInterceptor implements HandlerInterceptor {
 

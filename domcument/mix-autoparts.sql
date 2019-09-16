@@ -10,7 +10,7 @@ CREATE TABLE `auto_car` (
   `created_user_login` varchar(63) DEFAULT NULL,
   `last_updated_time` timestamp NULL DEFAULT NULL,
   `last_updated_user_login` varchar(63) DEFAULT NULL,
-  PRIMARY KEY (`autocar_id`) 
+  PRIMARY KEY (`autocar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

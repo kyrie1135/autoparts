@@ -27,22 +27,22 @@ import java.util.List;
 @Configuration
 public class WebAppConfig implements WebMvcConfigurer{
 
-    //提前创建LoginInterceptor对象,以便可以在过滤器中注入其他对象
-    @Bean
-    public HandlerInterceptor getLoginInterceptor(){
-        return new LoginInterceptor();
-    }
-
-    //授权拦截的路径
-    // addPathPatterns：拦截的路径
-    // excludePathPatterns：不拦截的路径
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //注册自定义拦截器，添加拦截路径和排除拦截路径
-        registry.addInterceptor(getLoginInterceptor()).
-                addPathPatterns("/**").
-                excludePathPatterns("/index.html","/","/login","/static/**","css/**");
-    }
+//    //提前创建LoginInterceptor对象,以便可以在过滤器中注入其他对象
+//    @Bean
+//    public HandlerInterceptor getLoginInterceptor(){
+//        return new LoginInterceptor();
+//    }
+//
+//    //授权拦截的路径
+//    // addPathPatterns：拦截的路径
+//    // excludePathPatterns：不拦截的路径
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        //注册自定义拦截器，添加拦截路径和排除拦截路径
+//        registry.addInterceptor(getLoginInterceptor()).
+//                addPathPatterns("/**").
+//                excludePathPatterns("/index.html","/","/login","/static/**","css/**");
+//    }
 
     //配置静态资源路径,默认是/resources/
     @Override
@@ -139,12 +139,12 @@ public class WebAppConfig implements WebMvcConfigurer{
     public void addCorsMappings(CorsRegistry registry) {
         //添加映射路径
         registry.addMapping("/**")
-                //放行哪些原始域
+                //放行哪些原始域:*--任意
                 .allowedOrigins("*")
                 //是否发送Cookie信息
                 .allowCredentials(true)
                 //放行哪些原始域(请求方式)
-                .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name())
+                .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(),HttpMethod.DELETE.name(),HttpMethod.PUT.name(), HttpMethod.OPTIONS.name())
                 //放行哪些原始域(头部信息)
                 .allowedHeaders(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, "accessToken", "CorrelationId", "source")
                 //暴露哪些头部信息（因为跨域访问默认不能获取全部头部信息）

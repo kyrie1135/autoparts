@@ -11,10 +11,7 @@ import com.mixone.portal.admin.util.UserLoginUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
@@ -191,5 +188,32 @@ public class AutoPartController {
         autopart.setLastUpdatedTime(new Timestamp(System.currentTimeMillis()));
         autoPartService.updateByPrimaryKeySelective(autopart);
         return autopart;
+    }
+
+    @RequestMapping(value = "/autopart",method= RequestMethod.POST,produces = "application/json")
+    public @ResponseBody
+    Object addAutopart(@RequestBody AutoPart autopart, HttpServletRequest request){
+
+        autopart.setAutopartId(IdUtil.nextId().toString());
+        autopart.setIsDel(0);
+        autopart.setCreatedUserLogin(UserLoginUtil.getUserLogin(request).getUserLoginId());
+        autopart.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+        autopart.setLastUpdatedUserLogin(UserLoginUtil.getUserLogin(request).getUserLoginId());
+        autopart.setLastUpdatedTime(new Timestamp(System.currentTimeMillis()));
+        autoPartService.insert(autopart);
+        return autopart;
+    }
+
+
+    @RequestMapping(value = "/autopart/{autopartId}",method= RequestMethod.DELETE)
+    public @ResponseBody
+    Object delAutopart(@PathVariable("autopartId") String autopartId, HttpServletRequest request){
+        AutoPart autopart =new AutoPart();
+        autopart.setAutopartId(autopartId);
+        autopart.setIsDel(1);
+        autopart.setLastUpdatedUserLogin(UserLoginUtil.getUserLogin(request).getUserLoginId());
+        autopart.setLastUpdatedTime(new Timestamp(System.currentTimeMillis()));
+        autoPartService.updateByPrimaryKeySelective(autopart);
+        return "200";
     }
 }

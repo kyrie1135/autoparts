@@ -15,8 +15,6 @@
 
 </head>
 <body class="nav-md">
-
-<body class="nav-md">
 <div class="container body">
     <div class="main_container">
         <!--左侧导航栏-->
@@ -70,7 +68,8 @@
             </div>
 
             <!--添加输入框-->
-            <div class="modal fade car-add-modal" tabindex="-1" role="dialog" aria-labelledby="caraddModalLabel"
+            <div class="modal fade car-add-modal" tabindex="-1"
+                 role="dialog" aria-labelledby="caraddModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" style="width: 50%">
                     <div class="modal-content">
@@ -253,7 +252,7 @@
     })
 
 
-    //初始化组织列表
+    //初始化table
     function initTable () {
         $('#tbCar').bootstrapTable({
             url: '${pageContext.request.contextPath}/autocars',

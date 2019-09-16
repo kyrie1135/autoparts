@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<ul id="example-1">
+    <li v-for="item in items">
+        {{ item.message }}
+    </li>
+</ul>
+<input type="text" id="test1">
+
+<input type="button" value="test" onclick="testvue()">
+</body>
+<script language="JavaScript">
+    var example1 = new Vue({
+        el: '#example-1',
+        data: {
+            items: [
+                { message: 'Foo' },
+                { message: 'Bar' }
+            ]
+        }
+    })
+    function testvue() {
+        test=document.getElementById("test1").value;
+
+        example1.items.push({ message: test });
+    }
+</script>
+</html>

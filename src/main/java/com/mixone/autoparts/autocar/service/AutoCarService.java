@@ -29,4 +29,6 @@ public interface AutoCarService {
     int updateByPrimaryKeySelective(AutoCar record);
 
     int updateByPrimaryKey(AutoCar record);
+
+
 }

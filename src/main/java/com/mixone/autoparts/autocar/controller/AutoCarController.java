@@ -22,10 +22,12 @@ public class AutoCarController {
 
     @RequestMapping("/autocarlist")
     public String autocarlist(){
+
         return "/jsp/app/autocarlist";
     }
 
-    @RequestMapping(value = "/autocars", method = RequestMethod.GET)
+    @RequestMapping(value = "/autocars",
+            method = RequestMethod.GET)
     public @ResponseBody
     Object getAutoCars(){
 
@@ -38,7 +40,9 @@ public class AutoCarController {
         return autoCars;
     }
 
-    @RequestMapping(value = "/autocar", method = RequestMethod.POST ,produces = "application/json")
+    @RequestMapping(value = "/autocar",
+            method = RequestMethod.POST ,
+            produces = "application/json")
     public @ResponseBody
     AutoCar addCar(@RequestBody AutoCar autoCar, Model model, HttpServletRequest request) {
 
@@ -124,7 +128,9 @@ public class AutoCarController {
         return "200";
     }
 
-    @RequestMapping(value = "/autocar",method= RequestMethod.PUT,produces = "application/json")
+    @RequestMapping(value = "/autocar",
+            method= RequestMethod.PUT,
+            produces = "application/json")
     public @ResponseBody
     Object editCar(@RequestBody AutoCar autocar, HttpServletRequest request){
 
