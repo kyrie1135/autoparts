@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Ttle: Test.java
+ * Ttle: SignUtil.java
  * Description: <r>
  *
  * @author maogx

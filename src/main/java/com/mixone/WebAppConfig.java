@@ -28,21 +28,32 @@ import java.util.List;
 public class WebAppConfig implements WebMvcConfigurer{
 
 //    //提前创建LoginInterceptor对象,以便可以在过滤器中注入其他对象
-//    @Bean
-//    public HandlerInterceptor getLoginInterceptor(){
-//        return new LoginInterceptor();
-//    }
-//
-//    //授权拦截的路径
-//    // addPathPatterns：拦截的路径
-//    // excludePathPatterns：不拦截的路径
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        //注册自定义拦截器，添加拦截路径和排除拦截路径
-//        registry.addInterceptor(getLoginInterceptor()).
-//                addPathPatterns("/**").
-//                excludePathPatterns("/index.html","/","/login","/static/**","css/**");
-//    }
+    @Bean
+    public HandlerInterceptor getLoginInterceptor(){
+        return new LoginInterceptor();
+    }
+
+    //授权拦截的路径
+    // addPathPatterns：拦截的路径
+    // excludePathPatterns：不拦截的路径
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //注册自定义拦截器，添加拦截路径和排除拦截路径
+        registry.addInterceptor(getLoginInterceptor()).
+                addPathPatterns("/**").
+                excludePathPatterns(
+                        "/index.html",
+                        "/",
+                        "/login",
+                        "/static/**",
+                        "css/**",
+                        "/api/*",
+                        "/autopart",
+                        "/autocars"
+
+
+                );
+    }
 
     //配置静态资源路径,默认是/resources/
     @Override
