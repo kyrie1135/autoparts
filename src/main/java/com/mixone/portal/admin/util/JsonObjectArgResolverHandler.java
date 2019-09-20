@@ -10,6 +10,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import java.lang.reflect.Field;
 
 //处理一个json里面有多个对象的消息
+//前台json格式
+//var json = {"user":{"id":9527,"userName":"zcy","realName":"钢铁侠"},"info":{"id":998,"address":"纽约"}};
 public class JsonObjectArgResolverHandler implements HandlerMethodArgumentResolver {
 
     @Override

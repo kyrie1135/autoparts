@@ -107,7 +107,7 @@ public class UserLogin implements Serializable {
 
     private String lastUpdatedUserLogin;
 
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
 
     public String getPartyId() {
         return partyId;
