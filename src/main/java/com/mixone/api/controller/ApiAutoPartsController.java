@@ -9,6 +9,7 @@ import com.mixone.autoparts.autopart.model.AutoPartExample;
 import com.mixone.autoparts.autopart.service.AutoPartService;
 import com.mixone.portal.admin.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+@Controller
 @RequestMapping("/api/v1")
 public class ApiAutoPartsController {
     @Autowired
@@ -99,7 +101,7 @@ public class ApiAutoPartsController {
         Object autopartJson = map.get("autopart");
         try{
             SignData signData = JsonXMLUtils.json2obj(signDataJson.toString(),SignData.class);
-            AutoPart autopart = JsonXMLUtils.json2obj(signDataJson.toString(),AutoPart.class);
+            AutoPart autopart = JsonXMLUtils.json2obj(autopartJson.toString(),AutoPart.class);
 
             String srcData = autopart.getAutocarNo()+autopart.getAutopartName();
             //验证签名

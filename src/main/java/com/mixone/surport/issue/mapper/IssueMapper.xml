@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.surport.issue.mapper.IssueMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.surport.issue.model.Issue">
+    <id column="issue_id" jdbcType="VARCHAR" property="issueId" />
+    <result column="issue_title" jdbcType="VARCHAR" property="issueTitle" />
+    <result column="issue_content" jdbcType="VARCHAR" property="issueContent" />
+    <result column="reporter" jdbcType="VARCHAR" property="reporter" />
+    <result column="reporter_id" jdbcType="VARCHAR" property="reporterId" />
+    <result column="issue_type" jdbcType="VARCHAR" property="issueType" />
+    <result column="issue_status" jdbcType="VARCHAR" property="issueStatus" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="created_user_login" jdbcType="VARCHAR" property="createdUserLogin" />
+    <result column="last_updated_time" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+    <result column="last_updated_user_login" jdbcType="VARCHAR" property="lastUpdatedUserLogin" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    issue_id, issue_title, issue_content, reporter, reporter_id, issue_type, issue_status, 
+    created_time, created_user_login, last_updated_time, last_updated_user_login
+  </sql>
+  <select id="selectByExample" parameterType="com.mixone.surport.issue.model.IssueExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from issue
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from issue
+    where issue_id = #{issueId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from issue
+    where issue_id = #{issueId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.surport.issue.model.IssueExample">
+    delete from issue
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.surport.issue.model.Issue">
+    insert into issue (issue_id, issue_title, issue_content, 
+      reporter, reporter_id, issue_type, 
+      issue_status, created_time, created_user_login, 
+      last_updated_time, last_updated_user_login
+      )
+    values (#{issueId,jdbcType=VARCHAR}, #{issueTitle,jdbcType=VARCHAR}, #{issueContent,jdbcType=VARCHAR}, 
+      #{reporter,jdbcType=VARCHAR}, #{reporterId,jdbcType=VARCHAR}, #{issueType,jdbcType=VARCHAR}, 
+      #{issueStatus,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUserLogin,jdbcType=VARCHAR}, 
+      #{lastUpdatedTime,jdbcType=TIMESTAMP}, #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.surport.issue.model.Issue">
+    insert into issue
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="issueId != null">
+        issue_id,
+      </if>
+      <if test="issueTitle != null">
+        issue_title,
+      </if>
+      <if test="issueContent != null">
+        issue_content,
+      </if>
+      <if test="reporter != null">
+        reporter,
+      </if>
+      <if test="reporterId != null">
+        reporter_id,
+      </if>
+      <if test="issueType != null">
+        issue_type,
+      </if>
+      <if test="issueStatus != null">
+        issue_status,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="createdUserLogin != null">
+        created_user_login,
+      </if>
+      <if test="lastUpdatedTime != null">
+        last_updated_time,
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        last_updated_user_login,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="issueId != null">
+        #{issueId,jdbcType=VARCHAR},
+      </if>
+      <if test="issueTitle != null">
+        #{issueTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="issueContent != null">
+        #{issueContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reporter != null">
+        #{reporter,jdbcType=VARCHAR},
+      </if>
+      <if test="reporterId != null">
+        #{reporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="issueType != null">
+        #{issueType,jdbcType=VARCHAR},
+      </if>
+      <if test="issueStatus != null">
+        #{issueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.surport.issue.model.IssueExample" resultType="java.lang.Long">
+    select count(*) from issue
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update issue
+    <set>
+      <if test="record.issueId != null">
+        issue_id = #{record.issueId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issueTitle != null">
+        issue_title = #{record.issueTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issueContent != null">
+        issue_content = #{record.issueContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reporter != null">
+        reporter = #{record.reporter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reporterId != null">
+        reporter_id = #{record.reporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issueType != null">
+        issue_type = #{record.issueType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issueStatus != null">
+        issue_status = #{record.issueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserLogin != null">
+        created_user_login = #{record.createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdatedTime != null">
+        last_updated_time = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdatedUserLogin != null">
+        last_updated_user_login = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update issue
+    set issue_id = #{record.issueId,jdbcType=VARCHAR},
+      issue_title = #{record.issueTitle,jdbcType=VARCHAR},
+      issue_content = #{record.issueContent,jdbcType=VARCHAR},
+      reporter = #{record.reporter,jdbcType=VARCHAR},
+      reporter_id = #{record.reporterId,jdbcType=VARCHAR},
+      issue_type = #{record.issueType,jdbcType=VARCHAR},
+      issue_status = #{record.issueStatus,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_user_login = #{record.createdUserLogin,jdbcType=VARCHAR},
+      last_updated_time = #{record.lastUpdatedTime,jdbcType=TIMESTAMP},
+      last_updated_user_login = #{record.lastUpdatedUserLogin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.surport.issue.model.Issue">
+    update issue
+    <set>
+      <if test="issueTitle != null">
+        issue_title = #{issueTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="issueContent != null">
+        issue_content = #{issueContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reporter != null">
+        reporter = #{reporter,jdbcType=VARCHAR},
+      </if>
+      <if test="reporterId != null">
+        reporter_id = #{reporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="issueType != null">
+        issue_type = #{issueType,jdbcType=VARCHAR},
+      </if>
+      <if test="issueStatus != null">
+        issue_status = #{issueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserLogin != null">
+        created_user_login = #{createdUserLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdatedTime != null">
+        last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedUserLogin != null">
+        last_updated_user_login = #{lastUpdatedUserLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where issue_id = #{issueId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.surport.issue.model.Issue">
+    update issue
+    set issue_title = #{issueTitle,jdbcType=VARCHAR},
+      issue_content = #{issueContent,jdbcType=VARCHAR},
+      reporter = #{reporter,jdbcType=VARCHAR},
+      reporter_id = #{reporterId,jdbcType=VARCHAR},
+      issue_type = #{issueType,jdbcType=VARCHAR},
+      issue_status = #{issueStatus,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user_login = #{createdUserLogin,jdbcType=VARCHAR},
+      last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+      last_updated_user_login = #{lastUpdatedUserLogin,jdbcType=VARCHAR}
+    where issue_id = #{issueId,jdbcType=VARCHAR}
+  </update>
+</mapper>

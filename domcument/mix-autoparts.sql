@@ -393,3 +393,55 @@ INSERT INTO `mo_user_login` VALUES ('193386400916312064', 'wangzong', '8d969eef6
 INSERT INTO `mo_user_login` VALUES ('193386885446504448', 'zhangsan', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, '张三', '张', '三', '', '', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '2019-06-18 07:30:26', 'admin', '2019-06-18 14:37:58', 'zhangsan');
 COMMIT;
 
+
+0;
+
+-- ----------------------------
+-- Table structure for issue
+-- ----------------------------
+DROP TABLE IF EXISTS `issue`;
+CREATE TABLE `issue` (
+  `issue_id` varchar(20) NOT NULL,
+  `issue_title` varchar(255) DEFAULT NULL,
+  `issue_content` varchar(1023) DEFAULT NULL,
+  `reporter` varchar(63) DEFAULT NULL,
+  `reporter_id` varchar(20) DEFAULT NULL,
+  `issue_type` varchar(255) DEFAULT NULL,
+  `issue_status` varchar(255) DEFAULT NULL,
+  `created_time` timestamp NULL DEFAULT NULL,
+  `created_user_login` varchar(63) DEFAULT NULL,
+  `last_updated_time` timestamp NULL DEFAULT NULL,
+  `last_updated_user_login` varchar(63) DEFAULT NULL,
+  PRIMARY KEY (`issue_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Table structure for issue_fix
+-- ----------------------------
+DROP TABLE IF EXISTS `issue_fix`;
+CREATE TABLE `issue_fix` (
+  `issue_fix_id` varchar(20) NOT NULL,
+  `issue_id` int(11) DEFAULT NULL,
+  `issue_fix_content` varchar(1023) DEFAULT NULL,
+  `issue_fix_time` timestamp NULL DEFAULT NULL,
+  `issue_fix_user_id` varchar(20) DEFAULT NULL,
+  `issue_fix_user` varchar(63) DEFAULT NULL,
+  `created_time` timestamp NULL DEFAULT NULL,
+  `created_user_login` varchar(63) DEFAULT NULL,
+  `last_updated_time` timestamp NULL DEFAULT NULL,
+  `last_updated_user_login` varchar(63) DEFAULT NULL,
+  PRIMARY KEY (`issue_fix_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Table structure for issue_pic
+-- ----------------------------
+DROP TABLE IF EXISTS `issue_pic`;
+CREATE TABLE `issue_pic` (
+  `issue_pic_id` varchar(20) NOT NULL,
+  `issue_id` varchar(20) DEFAULT NULL,
+  `issue_pic_url` varchar(2047) DEFAULT NULL,
+  `issue_pic` blob,
+  PRIMARY KEY (`issue_pic_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+

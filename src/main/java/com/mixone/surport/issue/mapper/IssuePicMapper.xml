@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mixone.surport.issue.mapper.IssuePicMapper">
+  <resultMap id="BaseResultMap" type="com.mixone.surport.issue.model.IssuePic">
+    <id column="issue_pic_id" jdbcType="VARCHAR" property="issuePicId" />
+    <result column="issue_id" jdbcType="VARCHAR" property="issueId" />
+    <result column="issue_pic_url" jdbcType="VARCHAR" property="issuePicUrl" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mixone.surport.issue.model.IssuePic">
+    <result column="issue_pic" jdbcType="LONGVARBINARY" property="issuePic" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    issue_pic_id, issue_id, issue_pic_url
+  </sql>
+  <sql id="Blob_Column_List">
+    issue_pic
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.mixone.surport.issue.model.IssuePicExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from issue_pic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.mixone.surport.issue.model.IssuePicExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from issue_pic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from issue_pic
+    where issue_pic_id = #{issuePicId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from issue_pic
+    where issue_pic_id = #{issuePicId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mixone.surport.issue.model.IssuePicExample">
+    delete from issue_pic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mixone.surport.issue.model.IssuePic">
+    insert into issue_pic (issue_pic_id, issue_id, issue_pic_url, 
+      issue_pic)
+    values (#{issuePicId,jdbcType=VARCHAR}, #{issueId,jdbcType=VARCHAR}, #{issuePicUrl,jdbcType=VARCHAR}, 
+      #{issuePic,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mixone.surport.issue.model.IssuePic">
+    insert into issue_pic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="issuePicId != null">
+        issue_pic_id,
+      </if>
+      <if test="issueId != null">
+        issue_id,
+      </if>
+      <if test="issuePicUrl != null">
+        issue_pic_url,
+      </if>
+      <if test="issuePic != null">
+        issue_pic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="issuePicId != null">
+        #{issuePicId,jdbcType=VARCHAR},
+      </if>
+      <if test="issueId != null">
+        #{issueId,jdbcType=VARCHAR},
+      </if>
+      <if test="issuePicUrl != null">
+        #{issuePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="issuePic != null">
+        #{issuePic,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mixone.surport.issue.model.IssuePicExample" resultType="java.lang.Long">
+    select count(*) from issue_pic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update issue_pic
+    <set>
+      <if test="record.issuePicId != null">
+        issue_pic_id = #{record.issuePicId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issueId != null">
+        issue_id = #{record.issueId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issuePicUrl != null">
+        issue_pic_url = #{record.issuePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issuePic != null">
+        issue_pic = #{record.issuePic,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update issue_pic
+    set issue_pic_id = #{record.issuePicId,jdbcType=VARCHAR},
+      issue_id = #{record.issueId,jdbcType=VARCHAR},
+      issue_pic_url = #{record.issuePicUrl,jdbcType=VARCHAR},
+      issue_pic = #{record.issuePic,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update issue_pic
+    set issue_pic_id = #{record.issuePicId,jdbcType=VARCHAR},
+      issue_id = #{record.issueId,jdbcType=VARCHAR},
+      issue_pic_url = #{record.issuePicUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mixone.surport.issue.model.IssuePic">
+    update issue_pic
+    <set>
+      <if test="issueId != null">
+        issue_id = #{issueId,jdbcType=VARCHAR},
+      </if>
+      <if test="issuePicUrl != null">
+        issue_pic_url = #{issuePicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="issuePic != null">
+        issue_pic = #{issuePic,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where issue_pic_id = #{issuePicId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mixone.surport.issue.model.IssuePic">
+    update issue_pic
+    set issue_id = #{issueId,jdbcType=VARCHAR},
+      issue_pic_url = #{issuePicUrl,jdbcType=VARCHAR},
+      issue_pic = #{issuePic,jdbcType=LONGVARBINARY}
+    where issue_pic_id = #{issuePicId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mixone.surport.issue.model.IssuePic">
+    update issue_pic
+    set issue_id = #{issueId,jdbcType=VARCHAR},
+      issue_pic_url = #{issuePicUrl,jdbcType=VARCHAR}
+    where issue_pic_id = #{issuePicId,jdbcType=VARCHAR}
+  </update>
+</mapper>

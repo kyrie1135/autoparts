@@ -49,9 +49,8 @@ public class WebAppConfig implements WebMvcConfigurer{
                         "css/**",
                         "/api/*",
                         "/autopart",
-                        "/autocars"
-
-
+                        "/autocars",
+                        "/issue"
                 );
     }
 
