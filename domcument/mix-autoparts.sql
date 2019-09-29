@@ -421,11 +421,12 @@ CREATE TABLE `issue` (
 DROP TABLE IF EXISTS `issue_fix`;
 CREATE TABLE `issue_fix` (
   `issue_fix_id` varchar(20) NOT NULL,
-  `issue_id` int(11) DEFAULT NULL,
+  `issue_id` varchar(20) DEFAULT NULL,
   `issue_fix_content` varchar(1023) DEFAULT NULL,
   `issue_fix_time` timestamp NULL DEFAULT NULL,
   `issue_fix_user_id` varchar(20) DEFAULT NULL,
   `issue_fix_user` varchar(63) DEFAULT NULL,
+  `issue_fix_type` varchar(2) DEFAULT NULL COMMENT '0-解决办法 1-报告人反馈意见',
   `created_time` timestamp NULL DEFAULT NULL,
   `created_user_login` varchar(63) DEFAULT NULL,
   `last_updated_time` timestamp NULL DEFAULT NULL,
@@ -441,7 +442,8 @@ CREATE TABLE `issue_pic` (
   `issue_pic_id` varchar(20) NOT NULL,
   `issue_id` varchar(20) DEFAULT NULL,
   `issue_pic_url` varchar(2047) DEFAULT NULL,
-  `issue_pic` blob,
+  `issue_pic` mediumblob,
   PRIMARY KEY (`issue_pic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
