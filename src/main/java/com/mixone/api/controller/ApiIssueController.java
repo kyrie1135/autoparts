@@ -30,14 +30,14 @@ public class ApiIssueController {
     @Autowired
     IssueFixService issueFixService;
 
-    @RequestMapping(value = "/issue",method = RequestMethod.POST,produces = "application/json")
+    @RequestMapping(value = "/issue", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
-    Object addIssue(@RequestBody Issue issue, HttpServletRequest request){
+    Object addIssue(@RequestBody Issue issue, HttpServletRequest request) {
 
 //        Object signDataJson = map.get("signData");
 //        Object issueJson = map.get("issue");
 //        Object issuePicJson = map.get("issuePic");
-        try{
+        try {
 //            SignData signData = JsonXMLUtils.json2obj(signDataJson.toString(),SignData.class);
 //            Issue issue = JsonXMLUtils.json2obj(issueJson.toString(),Issue.class);
 //            IssuePicJson issuePicTemp = JsonXMLUtils.json2obj(issuePicJson.toString(),IssuePicJson.class);
@@ -57,8 +57,8 @@ public class ApiIssueController {
             issue.setLastUpdatedTime(new Timestamp(System.currentTimeMillis()));
             issueService.insertSelective(issue);
 
-            if(null != issue.getIssuePic() && !"".equalsIgnoreCase(issue.getIssuePic())){
-                IssuePic issuePic =new IssuePic();
+            if (null != issue.getIssuePic() && !"".equalsIgnoreCase(issue.getIssuePic())) {
+                IssuePic issuePic = new IssuePic();
                 issuePic.setIssuePicId(IdUtil.nextId().toString());
                 issuePic.setIssueId(issue.getIssueId());
                 issuePic.setIssuePic(HexBinUtil.decode(issue.getIssuePic()));
@@ -66,7 +66,7 @@ public class ApiIssueController {
             }
 
             return issue;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "20044";
         }
@@ -74,102 +74,110 @@ public class ApiIssueController {
 
 
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
-    public @ResponseBody Object getIssue(String reporterId, String issueId,
-                                         String issueStatus,HttpServletRequest request){
+    public @ResponseBody
+    Object getIssue(String reporterId, String issueId,
+                    String issueStatus, HttpServletRequest request) {
 
-        IssueExample issueExample =new IssueExample();
+        IssueExample issueExample = new IssueExample();
         IssueExample.Criteria criteria = issueExample.createCriteria();
         //不需要写成 ORDER BY issue_status, created_time desc
         issueExample.setOrderByClause(" issue_status, created_time desc ");
-        if(null != reporterId && !"".equalsIgnoreCase(reporterId)){
+        if (null != reporterId && !"".equalsIgnoreCase(reporterId)) {
             criteria.andReporterIdEqualTo(reporterId);
         }
-        if(null != issueId && !"".equalsIgnoreCase(issueId)){
+        if (null != issueId && !"".equalsIgnoreCase(issueId)) {
             criteria.andIssueIdEqualTo(issueId);
         }
-        if(null != issueStatus && !"".equalsIgnoreCase(issueStatus)){
+        if (null != issueStatus && !"".equalsIgnoreCase(issueStatus)) {
             criteria.andIssueStatusEqualTo(issueStatus);
         }
 
         List<Issue> list = issueService.selectByExample(issueExample);
 
-        //如果查询单个问题,则返回图片
-        if(null != issueId && !"".equalsIgnoreCase(issueId)) {
-            Issue issue = new Issue();
-            //查找图片
-            IssuePicExample issuePicExample = new IssuePicExample();
-            IssuePicExample.Criteria picCriteria= issuePicExample.createCriteria();
-            picCriteria.andIssueIdEqualTo(issueId);
-            List<IssuePic> issuePicList = issuePicService.selectByExampleWithBLOBs(issuePicExample);
-            if(list.size()>0 && issuePicList.size()>0){
+
+        //如果issueId有值,即为查询单个问题,则返回图片及其他信息
+        if (null != issueId && !"".equalsIgnoreCase(issueId)) {
+
+            if (list.size() > 0) {
+                Issue issue = new Issue();
                 issue = list.get(0);
-                IssuePic issuePic = issuePicList.get(0);
-                byte[] picByte = issuePic.getIssuePic();
-                if(null != picByte){
-                    issue.setIssuePic(HexBinUtil.encode(picByte));
-                }
-            }
 
-            IssueFixExample issueFixExample = new IssueFixExample();
-            IssueFixExample.Criteria fixCriteria = issueFixExample.createCriteria();
-            fixCriteria.andIssueIdEqualTo(issueId);
-            List<IssueFix> issueFixList = issueFixService.selectByExample(issueFixExample);
-            if(list.size()>0 && issueFixList.size()>0){
-                SimpleDateFormat ft =
-                        new SimpleDateFormat("yyyy-MM-dd");
-
-                for(IssueFix fix : issueFixList){
-                    if("1".equalsIgnoreCase(fix.getIssueFixType())){
-                        issue.setIssueFeedback(
-                                fix.getIssueFixContent()
-                                + "\n"
-                                + fix.getIssueFixUser()
-                                + ":"
-                                + ft.format(fix.getCreatedTime())
-                        );
-                    }else{
-                        issue.setIssueFix(
-                                fix.getIssueFixContent()
-                                + "\n"
-                                + fix.getIssueFixUser()
-                                + ":"
-                                + ft.format(fix.getCreatedTime())
-                                + "\n"
-                        );
-
+                //查找图片
+                IssuePicExample issuePicExample = new IssuePicExample();
+                IssuePicExample.Criteria picCriteria = issuePicExample.createCriteria();
+                picCriteria.andIssueIdEqualTo(issueId);
+                List<IssuePic> issuePicList = issuePicService.selectByExampleWithBLOBs(issuePicExample);
+                if (issuePicList.size() > 0) {
+                    IssuePic issuePic = issuePicList.get(0);
+                    byte[] picByte = issuePic.getIssuePic();
+                    if (null != picByte) {
+                        //传回图片
+                        issue.setIssuePic(HexBinUtil.encode(picByte));
                     }
                 }
-            }
+                //查找解决方法及反馈意见
+                IssueFixExample issueFixExample = new IssueFixExample();
+                IssueFixExample.Criteria fixCriteria = issueFixExample.createCriteria();
+                fixCriteria.andIssueIdEqualTo(issueId);
+                List<IssueFix> issueFixList = issueFixService.selectByExample(issueFixExample);
+                if (issueFixList.size() > 0) {
+                    SimpleDateFormat ft =
+                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            list.clear();
-            list.add(issue);
+                    for (IssueFix fix : issueFixList) {
+                        if ("1".equalsIgnoreCase(fix.getIssueFixType())) {
+                            issue.setIssueFeedback(
+                                    fix.getIssueFixContent()
+                                            + "\n"
+                                            + fix.getIssueFixUser()
+                                            + ":"
+                                            + ft.format(fix.getCreatedTime())
+                            );
+                        } else {
+                            String originFix = issue.getIssueFix() == null ? "" : issue.getIssueFix()+ "\n";
+                            issue.setIssueFix(
+                                            originFix
+                                            +
+                                            fix.getIssueFixContent()
+                                            + "\n"
+                                            + fix.getIssueFixUser()
+                                            + ":"
+                                            + ft.format(fix.getCreatedTime())
+
+                            );
+
+                        }
+                    }
+                }
+
+                list.clear();
+                list.add(issue);
+            }
         }
         return list;
     }
-    @RequestMapping(value = "/issue",method = RequestMethod.PUT,produces = "application/json")
+
+    @RequestMapping(value = "/issue", method = RequestMethod.PUT, produces = "application/json")
     public @ResponseBody
-    Object fixIssue(@RequestBody IssueFix issueFix, HttpServletRequest request){
-        if(null != issueFix){
-            if("0".equalsIgnoreCase(issueFix.getIssueFixType())){
-                //解决办法
-            }else{
+    Object fixIssue(@RequestBody IssueFix issueFix, HttpServletRequest request) {
+        if (null != issueFix) {
+            issueFix.setIssueFixId(IdUtil.nextId().toString());
+            issueFix.setCreatedUserLogin(UserLoginUtil.getUserLogin(request).getUserLoginId());
+            issueFix.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+            issueFix.setLastUpdatedUserLogin(UserLoginUtil.getUserLogin(request).getUserLoginId());
+            issueFix.setLastUpdatedTime(new Timestamp(System.currentTimeMillis()));
+            issueFixService.insertSelective(issueFix);
+            if ("1".equalsIgnoreCase(issueFix.getIssueFixType())) {
                 //报告人反馈意见
                 Issue issue = issueService.selectByPrimaryKey(issueFix.getIssueId());
                 //设置问题已解决
                 issue.setIssueId(issueFix.getIssueId());
                 issue.setIssueStatus("1");
                 issueService.updateByPrimaryKeySelective(issue);
-
-                //添加反馈意见
-                issueFix.setIssueFixId(IdUtil.nextId().toString());
-                issueFix.setCreatedUserLogin(UserLoginUtil.getUserLogin(request).getUserLoginId());
-                issueFix.setCreatedTime(new Timestamp(System.currentTimeMillis()));
-                issueFix.setLastUpdatedUserLogin(UserLoginUtil.getUserLogin(request).getUserLoginId());
-                issueFix.setLastUpdatedTime(new Timestamp(System.currentTimeMillis()));
-                issueFixService.insertSelective(issueFix);
-
-                return issueFix;
+            } else {
+                //解决办法
             }
+            return issueFix;
         }
         return "20044";
     }
